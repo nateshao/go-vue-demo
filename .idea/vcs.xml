@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gin-vue-gin-essential" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/gin-vue-gin-essential-vue" vcs="Git" />
   </component>
 </project>
