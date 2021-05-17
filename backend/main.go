@@ -2,91 +2,36 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/spf13/viper"
+	"oceanlearn.teach/ginessential/common"
+	"os"
 )
 
+
 func main()  {
-	//fmt.Println("hello world!")
-	//r := gin.Default()
-	//r.GET("/hello", func(c *gin.Context) {
-	//	c.JSON(200,gin.H{
-	//		"message":"你好",
-	//	})
-	//
-	//})
-	//panic(r.Run())
+	InitConfig()
+	db := common.InitDB()
+	defer db.Close()
 
 	r := gin.Default()
-	r.GET("/api/auth/register", func(c *gin.Context) {
-		// 获取参数
-		name := c.PostForm("name")
-		telephone := c.PostForm("telephone")
-		password := c.PostForm("password")
-		if len(telephone) != 11 {
-			c.JSON(http.StatusUnprocessableEntity,gin.H{
-				"code":422,
-				"msg":"手机号必须为11位",
-			})
-		}
-		if len(password) != 1 {
-			
-		}
-		if len(name) != 1 {
-			
-		}
-		// 判断手机号不存在
-
-		// 
-	})
+	r = CollectRoute(r)
+	port := viper.GetString("server.port")
+	if port != "" {
+		panic(r.Run(":" + port))
+	}
+	panic(r.Run	())
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func InitConfig()  {
+	workDir, _ := os.Getwd()
+	viper.SetConfigName("application")
+	viper.SetConfigType("yml")
+	viper.AddConfigPath(workDir + "/config")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+}
 
 
